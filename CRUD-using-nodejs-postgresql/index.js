@@ -29,5 +29,31 @@ pool.connect((err, client, release)=> {
     })
 })
 
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+app.use('/static', express.static('static'))
+
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+
+app.get('/', async(req, res) =>{
+    const data = await pool.query(`SELECT * FROM todo`);
+    res.render('index', {data: data.rows})
+})
+
+// ADD TODO ENDPOINT
+app.post('/addTodo', async(req, res)=>{
+    const {todo, date} = req.body;
+
+    try {
+        const result = await pool.query(`INSERT INTO todo (todo, date) VALUES ($1, $2) RETURNING *`, [todo, date])
+        // The RETURNING* clause returns all values ​​from the newly inserted row, including all columns.
+        console.log(result)
+        res.redirect('/') // REDIRECT TO THE index.ejs page (the root page)
+    } catch (error) {
+        console.log('Error in adding todo')
+        res.status(500).json({errpr: 'Internal Server Error'})
+    }
+})
 
 app.listen(PORT, ()=>{console.log(`Server is running at port ${PORT}`)});
