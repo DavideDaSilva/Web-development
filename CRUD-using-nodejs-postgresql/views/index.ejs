@@ -11,7 +11,7 @@
     <form action="/addTodo" method="post" class="container">
         <div class="mb-3">
             <label for="todo" class="form-label">ADD TODO</label>
-            <input type="text" class="form-control" id="todo" name="todo">
+            <input type="text" class="form-control" id="todo" name="todo" placeholder="Add your todo task here">
         </div>
         <div class="mb-3">
             <label for="date" class="form-label">DATE</label>
@@ -36,11 +36,13 @@
             <div class="col">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title"><%=data[i].date %></h5>
-                  <p class="card-text"><%=data[i].todo %></p>
+                  <h5 class="card-title"><%= data[i].date %></h5>
+                  <p class="card-text"><%= data[i].todo %></p>
 
                   <button class="btn btn-danger m-1"><i class="material-icons">delete</i></button>
-                  <button class="btn btn-primary m-1"><i class="material-icons">border_color</i></button>
+                  <a href="/edit/<%= data[i].id%>">
+                    <button class="btn btn-primary m-1"><i class="material-icons">border_color</i></button>
+                  </a>
                 </div>
               </div>
             </div>
