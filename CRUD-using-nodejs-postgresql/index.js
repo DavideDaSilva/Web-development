@@ -38,7 +38,7 @@ app.use(express.json())
 
 // READ
 app.get('/', async(req, res) =>{
-    const data = await pool.query(`SELECT * FROM todo`);
+    const data = await pool.query(`SELECT * FROM todo ORDER BY date`);
     res.render('index', {data: data.rows})
 })
 
