@@ -41,6 +41,14 @@ app.get('/', async(req, res) =>{
     res.render('index', {data: data.rows})
 })
 
+// FILTER ENDPOINT
+app.post('/filter', async(req, res) =>{
+    const searchDate = req.body.date
+    const data = await pool.query(`SELECT * FROM todo WHERE date='${searchDate}'`);
+    res.render('filter', {data: data.rows})
+})
+
+
 // ADD TODO ENDPOINT
 app.post('/addTodo', async(req, res)=>{
     const {todo, date} = req.body;
