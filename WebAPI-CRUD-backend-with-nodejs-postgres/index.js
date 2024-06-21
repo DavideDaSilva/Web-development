@@ -16,6 +16,18 @@ app.get('/', (req, res) => {
     })
 })
 
+// Route to list customers
+app.get('/clientes', async (req, res) => {
+    const clientes = await db.selectCustomers();
+    res.json(clientes);
+})
+
+// Route to insert customers
+
+// Route to edit/update customers
+
+// Route to delete customers
+
 app.listen(port);
 
 console.log("Backend is running")

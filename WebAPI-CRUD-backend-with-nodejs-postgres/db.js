@@ -29,3 +29,27 @@ async function connect() {
 }
 
 connect(); // Remembering/Reminder: we have to load/import the db.js file there in our index.js back-end.
+
+
+// Function to list customers
+async function selectCustomers() {
+    // Establish connection
+    const client = await connect();
+
+    // Send sql command to the database
+    const res = await client.query("SELECT * FROM clientes");
+
+    return res.rows;
+
+}
+
+// Function to insert customers
+
+// Function to edit/update customers
+
+// Function to delete customers
+
+
+module.exports = {
+    selectCustomers
+}
