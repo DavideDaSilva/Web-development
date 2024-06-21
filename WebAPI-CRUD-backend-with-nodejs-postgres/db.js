@@ -40,6 +40,18 @@ async function selectCustomers() {
     const res = await client.query("SELECT * FROM clientes");
 
     return res.rows;
+}
+
+// Function to list one customer
+async function selectCustomer(id) {
+    // Establish connection
+    const client = await connect();
+
+    // Send sql command to the database
+    // const res = await client.query("SELECT * FROM clientes WHERE ID=" +id); // This can cause SQL injection
+    const res = await client.query("SELECT * FROM clientes WHERE ID=$1", [id]); // Prepared statement or prepared query
+
+    return res.rows;
 
 }
 
@@ -51,5 +63,6 @@ async function selectCustomers() {
 
 
 module.exports = {
-    selectCustomers
+    selectCustomers,
+    selectCustomer
 }
