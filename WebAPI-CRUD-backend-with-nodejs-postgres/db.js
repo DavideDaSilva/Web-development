@@ -52,10 +52,20 @@ async function selectCustomer(id) {
     const res = await client.query("SELECT * FROM clientes WHERE ID=$1", [id]); // Prepared statement or prepared query
 
     return res.rows;
-
 }
 
 // Function to insert customers
+async function insertCustomer(customer) {
+    // Establish connection
+    const client = await connect();
+    // query
+    const sql = "INSERT INTO clientes(nome, idade, uf) VALUES ($1, $2, $3)";
+    // parameters that must be injected into the query
+    const values = [customer.nome, customer.idade, customer.uf];
+
+    // does not have a return
+    await client.query(sql, values)
+}
 
 // Function to edit/update customers
 
@@ -64,5 +74,6 @@ async function selectCustomer(id) {
 
 module.exports = {
     selectCustomers,
-    selectCustomer
+    selectCustomer,
+    insertCustomer
 }
