@@ -41,6 +41,10 @@ app.post('/clientes', async (req, res) => {
 })
 
 // Route to edit/update customers
+app.patch("/clientes/:id", async (req, res) => {
+    await db.updateCustomer(req.params.id, req.body)
+    res.sendStatus(200) // 200 is the udpate code
+})
 
 // Route to delete customers
 

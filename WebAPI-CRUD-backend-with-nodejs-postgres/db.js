@@ -62,12 +62,21 @@ async function insertCustomer(customer) {
     const sql = "INSERT INTO clientes(nome, idade, uf) VALUES ($1, $2, $3)";
     // parameters that must be injected into the query
     const values = [customer.nome, customer.idade, customer.uf];
-
     // does not have a return
     await client.query(sql, values)
 }
 
 // Function to edit/update customers
+async function updateCustomer(id, customer) {
+    // Establish connection
+    const client = await connect();
+    // query
+    const sql = "UPDATE clientes SET nome=$1, idade=$2, uf=$3 WHERE id=$4";
+    // parameters that must be injected into the query
+    const values = [customer.nome, customer.idade, customer.uf, id];
+    // does not have a return
+    await client.query(sql, values);
+}
 
 // Function to delete customers
 
@@ -75,5 +84,6 @@ async function insertCustomer(customer) {
 module.exports = {
     selectCustomers,
     selectCustomer,
-    insertCustomer
+    insertCustomer,
+    updateCustomer
 }
