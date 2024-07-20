@@ -19,7 +19,7 @@ async function connect() {
     console.log("Connection pool created successfully!")
 
     const resdb = await client.query("SELECT now()");
-    console.log(resdb.rows[0]);
+    console.log(resdb.rows[0]); // Taking the first position of the array where the database time will come from.
     client.release()
 
     // We can save our pool in global connection. Then we can do the "if" like at begining of this file
@@ -79,11 +79,21 @@ async function updateCustomer(id, customer) {
 }
 
 // Function to delete customers
+async function deleteCustomer(id) {
+    // Establish connection
+    const client = await connect();
+    // parameters that must be injected into the query
+    const sql = "DELETE FROM clientes WHERE id=$1";
+    const values = [id];
+    // does not have a return
+    await client.query(sql, values)
+}
 
 
 module.exports = {
     selectCustomers,
     selectCustomer,
     insertCustomer,
-    updateCustomer
+    updateCustomer,
+    deleteCustomer
 }

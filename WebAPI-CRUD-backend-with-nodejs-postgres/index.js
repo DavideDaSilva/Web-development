@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config(); // It looks for the .env file in the project root and will load the variables that are in the .env file into memory.
 
 const db = require("./db");
 
@@ -46,7 +46,11 @@ app.patch("/clientes/:id", async (req, res) => {
     res.sendStatus(200) // 200 is the udpate code
 })
 
-// Route to delete customers
+// Route to delete customer
+app.delete("/clientes/:id", async (req, res) => {
+    await db.deleteCustomer(req.params.id)
+    res.sendStatus(204) // 204 is the code for deletion
+})
 
 app.listen(port);
 
