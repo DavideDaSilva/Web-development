@@ -70,6 +70,25 @@ class DbService {
     }
 
     // Function responsible for deleting data
+    async deleteRowById(id) {
+        try {
+            id = parseInt(id, 10); // base 10. I added it because some browser may not work the same way
+            const response = await new Promise((resolve, reject) => {
+                const query = "DELETE FROM names WHERE id = ?";
+    
+                connection.query(query, [id], (err, result) => {
+                    if(err) reject(new Error(err.message));
+                    resolve(result.affectedRows);
+                })
+            });
+
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+
+    }
 
     // Funtion responsible for updating data
 }

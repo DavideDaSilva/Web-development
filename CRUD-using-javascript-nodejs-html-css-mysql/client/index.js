@@ -4,6 +4,26 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(data =>  loadHTMLTable(data['data']));
 })
 
+document.querySelector('table tbody').addEventListener('click', function(event) {
+    // console.log(event.target);
+    if (event.target.className === "delete-row-btn") {
+        deleteRowById(event.target.dataset.id);
+    }
+})
+
+function deleteRowById(id) {
+    fetch('http://localhost:5000/delete/' + id, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    // After we delete some row, we reload the table. For that, what we realy have to do in a real world application is to create a function that grab the data from database
+    // whitout refresh the table like I do here.
+    .then(data => {
+        if (data.success){
+            location.reload();
+        }
+    });
+}
 
 const addBtn = document.querySelector('#add-name-btn');
 
