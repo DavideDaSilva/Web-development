@@ -9,8 +9,15 @@ document.querySelector('table tbody').addEventListener('click', function(event) 
     if (event.target.className === "delete-row-btn") {
         deleteRowById(event.target.dataset.id);
     }
+    if (event.target.className === "edit-row-btn") {
+        console.log("DENTRO DE IF ===>>> event.target.dataset.id ===>>>> ", event.target.dataset.id)
+        handleEditRow(event.target.dataset.id)
+    }
 })
 
+const updateBtn = document.querySelector("#update-row-btn");
+
+// Function to delete data
 function deleteRowById(id) {
     fetch('http://localhost:5000/delete/' + id, {
         method: 'DELETE'
@@ -23,6 +30,41 @@ function deleteRowById(id) {
             location.reload();
         }
     });
+}
+
+// Function to edit data
+function handleEditRow(id) {
+    console.log("handleEditRow ==>> id =====>>>>> ", id)
+    // when the button is clicked:
+    // Show html
+    const updateSection = document.querySelector("#update-row");
+    updateSection.hidden = false;
+    document.querySelector("#update-row-btn").dataset.id = id;
+}
+updateBtn.onclick = function() {
+    const updateNameInput = document.querySelector("#update-name-input");
+    console.log("updateNameInput ===>>> ", updateNameInput)
+    const getRowId = document.querySelector("#update-row-btn").dataset.id;
+
+    const getAllRow = document.querySelector("#update-row-btn").dataset
+
+    fetch('http://localhost:5000/update', {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            // id: updateNameInput.dataset.id,
+            id: getRowId,
+            name: updateNameInput.value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
 }
 
 const addBtn = document.querySelector('#add-name-btn');
@@ -43,7 +85,12 @@ addBtn.onclick = function () {
         body: JSON.stringify({name : name})
     })
     .then(response => response.json()) // get the Promise and convert it to json
-    .then(data => insertRowIntoTable(data['data'])); // get the data
+    .then(data => {
+        insertRowIntoTable(data['data']); // get the data
+        location.reload();
+    })
+
+ 
 }
 
 // Function to insert data into the table
