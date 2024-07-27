@@ -1,0 +1,12 @@
+Go to server folder and install the packages bellow:
+    npm init -y
+    npm install express
+    npm install mysql
+    npm install -g --force nodemon
+    npm install cors
+
+
+How to run the code:
+    nodemon app.js
+    or
+    node app.js
