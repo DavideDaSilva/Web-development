@@ -10,7 +10,7 @@ const dbService = require('./dbService');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false})); //! ************* COMENTAR
 
 // create: Route insert
 app.post('/insert', (request, response) => {
@@ -42,7 +42,16 @@ app.get('/getAll', (request, response) => {
 })
 
 // update: Route update
+app.patch('/update', (request, response) => {
+    const {id, name} = request.body;
+    const db = dbService.getDbServiceInstance();
 
+    const result = db.updateNameById(id, name);
+
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+})
 
 // delete: Route delete
 app.delete('/delete/:id', (request, response) => {

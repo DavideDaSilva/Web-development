@@ -91,6 +91,24 @@ class DbService {
     }
 
     // Funtion responsible for updating data
+    async updateNameById(id, name) {
+        try {
+            id = parseInt(id, 10); // base 10. I added it because some browser may not work the same way
+            const response = await new Promise((resolve, reject) => {
+                const query = "UPDATE names SET name = ? WHERE id = ?";
+    
+                connection.query(query, [name, id], (err, result) => {
+                    if(err) reject(new Error(err.message));
+                    resolve(result.affectedRows);
+                })
+            });
+
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
 }
 
 
